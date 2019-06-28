@@ -28,16 +28,20 @@
 
     const button = document.getElementById('button');
     const image = document.getElementById('image');
-    button.addEventListener('click', loadImage);
+    button.addEventListener('click', loadMainImage);
 
-    function loadImage() {
-      image.style.backgroundImage = 'url(img/loader.svg)';
-      image.src = 'img/1.jpg';
+    function loadImage(src) {
+      image.src = 'img/loader.svg';
+      image.src = src;
+    }
+
+    function loadMainImage() {
+      const src = 'img/1.jpg';
+      return loadImage.call(this, src);
     }
 
     function imageLoaded() {
       console.log('image loaded');
-      image.style.backgroundImage = 'none';
     }
   </script>
 </body>
