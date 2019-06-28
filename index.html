@@ -18,7 +18,8 @@
   </style>
 </head>
 <body onload="console.log('body loaded')">
-  <button id="button">Show Image</button>
+  <button id="button1">Show Image 1</button>
+  <button id="button2">Show Image 2</button>
   <img id="image" width="50%" onload="imageLoaded()">
 
 
@@ -26,17 +27,25 @@
   <script>
 
 
-    const button = document.getElementById('button');
+    const button1 = document.getElementById('button1');
+    const button2 = document.getElementById('button2');
     const image = document.getElementById('image');
-    button.addEventListener('click', loadMainImage);
+    button1.addEventListener('click', loadMainImage);
+    button2.addEventListener('click', loadSecondaryImage);
 
     function loadImage(src) {
       image.src = 'img/loader.svg';
-      image.src = src;
+      setTimeout( function() {
+        image.src = src;
+      }, 150);
     }
 
     function loadMainImage() {
       const src = 'img/1.jpg';
+      return loadImage.call(this, src);
+    }
+    function loadSecondaryImage() {
+      const src = 'img/2.jpg';
       return loadImage.call(this, src);
     }
 
