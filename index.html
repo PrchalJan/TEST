@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ajax Crash Course</title>
+</head>
+<body onload="console.log('body loaded')">
+  <button id="button">Show Image</button>
+  <img id="image" src="img/1.jpg" width="100%" onload="printLoaded()">
+
+
+  <script>
+
+    function printLoaded() {
+      console.log('loaded');
+    }
+
+    const button = document.getElementById('button');
+    button.addEventListener('click', loadImage);
+
+    function loadImage() {
+      
+      const xhr = new XMLHttpRequest();
+
+      console.log(xhr.readyState);
+
+      xhr.open('GET', 'img/1.jpg' , true);
+
+      console.log(xhr.readyState);
+
+      xhr.onload = function() {
+        const img = document.getElementById('image');
+        if(this.status == 200) {
+          const img = document.getElementById('image');
+          img.src = 'img/1.jpg';
+        }
+        
+      }
+
+      console.log(xhr.readyState);
+      xhr.send();
+    }
+  </script>
+</body>
+</html>

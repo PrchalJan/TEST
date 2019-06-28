@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ajax 2 - Local JSON</title>
+</head>
+<body>
+  <button id="button1">GET USER</button>
+  <button id="button2">GET USERS</button>
+  <br><br>
+  <h1>User</h1>
+  <div id="user"></div>
+  <h1>Users</h1>
+  <div id="users"></div>
+  
+  <script>
+    const button1 = document.querySelector('#button1')
+    button1.addEventListener('click', loadUser);
+
+    function loadUser() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'files/user.json', true);
+
+      xhr.onload = function() {
+        if(this.status == 200) {
+          console.log(this.responseText);
+          const user = JSON.parse(this.responseText);
+          const userDiv = document.querySelector('#user');
+          userDiv.innerHTML = `
+          <ul>
+            <li>ID: ${user.id}</li>
+            <li>NAME: ${user.name}</li>
+            <li>EMAIL: ${user.email}</li>
+          </ul>
+          `;
+        }
+      }
+
+      xhr.send();
+    }
+
+    const button2 = document.querySelector('#button2')
+    button2.addEventListener('click', loadUsers);
+
+    function loadUsers() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'files/users.json', true);
+
+      xhr.onload = function() {
+        if(this.status == 200) {
+          const users = JSON.parse(this.responseText);
+          const usersDiv = document.querySelector('#users');
+          let output = '';
+          for(let user in users) {
+            output += `
+            <h2>User ${Number(user) + 1}:</h2>
+            <ul>
+              <li>ID: ${users[user].id}</li>
+              <li>NAME: ${users[user].name}</li>
+              <li>EMAIL: ${users[user].email}</li>
+            </ul>
+            `;
+          }
+          usersDiv.innerHTML = output;
+
+          // usersDiv.innerHTML = `
+          // <h2>User 1:</h2>
+          // <ul>
+          //   <li>ID: ${users[0].id}</li>
+          //   <li>NAME: ${users[0].name}</li>
+          //   <li>EMAIL: ${users[0].email}</li>
+          // </ul>
+          // <h2>User 2:</h2>
+          // <ul>
+          //   <li>ID: ${users[1].id}</li>
+          //   <li>NAME: ${users[1].name}</li>
+          //   <li>EMAIL: ${users[1].email}</li>
+          // </ul>
+          // <h2>User 3:</h2>
+          // <ul>
+          //   <li>ID: ${users[2].id}</li>
+          //   <li>NAME: ${users[2].name}</li>
+          //   <li>EMAIL: ${users[2].email}</li>
+          // </ul>
+          // `;
+        }
+      }
+
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
