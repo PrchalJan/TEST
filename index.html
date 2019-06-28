@@ -9,11 +9,17 @@
     img {
       display: block;
     }
+    #image {
+      min-height: 200px;
+      /* background: url(img/loader.svg); */
+      background-repeat: no-repeat;
+      background-position: center;
+    }
   </style>
 </head>
 <body onload="console.log('body loaded')">
   <button id="button">Show Image</button>
-  <img id="image" width="50%" onload="console.log('image loaded')">
+  <img id="image" width="50%" onload="imageLoaded()">
 
 
     <img id="cacheLoader" src="img/loader.svg" style="display: none">
@@ -25,9 +31,13 @@
     button.addEventListener('click', loadImage);
 
     function loadImage() {
-      image.src = 'img/loader.svg';
+      image.style.backgroundImage = 'url(img/loader.svg)';
       image.src = 'img/1.jpg';
+    }
 
+    function imageLoaded() {
+      console.log('image loaded');
+      image.style.backgroundImage = 'none';
     }
   </script>
 </body>
