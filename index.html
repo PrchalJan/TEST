@@ -5,42 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Ajax Crash Course</title>
+  <style>
+    img {
+      display: block;
+    }
+  </style>
 </head>
 <body onload="console.log('body loaded')">
   <button id="button">Show Image</button>
-  <img id="image" width="30%" onload="printLoaded()">
+  <img id="image" width="50%" onload="console.log('image loaded')">
 
 
+    <img id="cacheLoader" src="img/loader.svg" style="display: none">
   <script>
 
-    function printLoaded() {
-      console.log('loaded');
-    }
 
     const button = document.getElementById('button');
+    const image = document.getElementById('image');
     button.addEventListener('click', loadImage);
 
     function loadImage() {
-      
-      const xhr = new XMLHttpRequest();
+      image.src = 'img/loader.svg';
+      image.src = 'img/1.jpg';
 
-      console.log(xhr.readyState);
-
-      xhr.open('GET', 'img/1.jpg' , true);
-
-      console.log(xhr.readyState);
-
-      xhr.onload = function() {
-        const img = document.getElementById('image');
-        if(this.status == 200) {
-          const img = document.getElementById('image');
-          img.src = 'img/1.jpg';
-        }
-        
-      }
-
-      console.log(xhr.readyState);
-      xhr.send();
     }
   </script>
 </body>
