@@ -39,10 +39,19 @@
     const button2 = document.getElementById('button2');
     const button3 = document.getElementById('button3');
     const image = document.getElementById('image');
+    
     button1.addEventListener('click', loadMainImage);
     button2.addEventListener('click', loadSecondaryImage);
     button3.addEventListener('click', loadThirdImage);
 
+    function clearQueue() {
+      const cacheImages = document.querySelectorAll('.cache__image');
+      for(let i = 0; i < cacheImages.length; i++) {
+        cacheImages[i].onload = null;
+      }
+    }
+
+    document.addEventListener('contextmenu', clearQueue);
 
     function isCached(src, cache) {
       const cachedImages = cache.children;
@@ -67,8 +76,9 @@
     }
 
     function loadImage(src) {
-      console.log('src: ', src);
-      image.src = src;
+      // console.log('src: ', src);
+      // image.src = src;
+      clearQueue();
       image.setAttribute('src', src);
     }
 
