@@ -10,7 +10,8 @@
       display: block;
     }
     #image {
-      min-height: 200px;
+      width: 90vw;
+      height: 90vh;
       /* background: url(img/loader.svg); */
       background-repeat: no-repeat;
       background-position: center;
@@ -20,33 +21,87 @@
 <body onload="console.log('body loaded')">
   <button id="button1">Show Image 1</button>
   <button id="button2">Show Image 2</button>
-  <img id="image" width="50%" onload="imageLoaded()">
+  <button id="button3">Show Image 3</button>
+  <img id="image" onload="imageLoaded()">
 
 
+  <div class="cache" id="cache" style="display: none">
+    <img id="loader" src="img/loader.svg">
+    <!-- <img class="cache__image" src="img/1.jpg">
+    <img class="cache__image" src="img/2.jpg"> -->
+  </div>
+    <img id="cacheLoader" src="img/loader.gif" style="display: none">
     <img id="cacheLoader" src="img/loader.svg" style="display: none">
   <script>
 
 
     const button1 = document.getElementById('button1');
     const button2 = document.getElementById('button2');
+    const button3 = document.getElementById('button3');
     const image = document.getElementById('image');
     button1.addEventListener('click', loadMainImage);
     button2.addEventListener('click', loadSecondaryImage);
+    button3.addEventListener('click', loadThirdImage);
+
+
+    function isCached(src, cache) {
+      const cachedImages = cache.children;
+      // console.log('src in cached: ', src);
+      console.log('cachedImages in cached: ', cachedImages);
+      for(let i = 0; i < cachedImages.length; i++) {
+        if(src === cachedImages[i].getAttribute('src')) {
+          return true;
+        } 
+      }
+      return false;
+    }
+    function injectImage(src, cache) {
+      const newImg = document.createElement('img');
+      newImg.classList.add('cache__image');
+      newImg.onload = function() {
+        console.log('onload src: ', src);
+        loadImage(src);
+      }
+      newImg.src = src;
+      cache.appendChild(newImg);
+    }
 
     function loadImage(src) {
-      image.src = 'img/loader.svg';
-      setTimeout( function() {
-        image.src = src;
-      }, 150);
+      console.log('src: ', src);
+      image.src = src;
+      image.setAttribute('src', src);
     }
+
+    function cacheImage(src) {
+      const cache = document.querySelector('#cache');
+
+      if(isCached(src, cache)) {
+        loadImage(src);
+        return;
+      }
+      loadImage('img/loader.svg');
+      injectImage(src, cache);
+    }
+
+    // cacheImage('img/2.jpg');
+
+    // cacheImage('img/3.jpg');
+
+
 
     function loadMainImage() {
       const src = 'img/1.jpg';
-      return loadImage.call(this, src);
+      cacheImage(src);
+      // return loadImage.call(this, image, src);
     }
     function loadSecondaryImage() {
       const src = 'img/2.jpg';
-      return loadImage.call(this, src);
+      cacheImage(src);
+      // return loadImage.call(this, image, src);
+    }
+    function loadThirdImage() {
+      const src = 'img/3.jpg';
+      cacheImage(src);
     }
 
     function imageLoaded() {
